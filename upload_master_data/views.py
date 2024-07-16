@@ -7,15 +7,22 @@ from .utils import *
 views = Blueprint("views", __name__)
 
 
-@views.route("/", methods=["POST"])
-def hello_world():
+@views.route("/", methods=["GET"])
+def home():
+    return "home page"
 
+@views.route("/master", methods=["POST"])
+def upload_master_file():
     """
-        request:
-            dat_frame: master_file_name
-        response:
-            data is inserted
+    request:
+        data_frame: master_file_name
+    response:
+        data is inserted
     """
-    data = request.files['data_frame']
-    return create_table_insert_recode(data)
-
+    
+    master_file = request.files['data_frame']
+    location = request.form.get('location')
+    
+    print(location)
+    
+    return create_table_insert_recode(master_file, location)
